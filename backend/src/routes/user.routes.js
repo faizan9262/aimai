@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { changeProfilePic, loginUser, logoutUser, registerUser, resetPassword, sendPassswordResetOtp, sendVerifyEmailOtp, updatePassword, verifyEmailOtp, verifyUser } from "../controllers/user.controller.js";
 import { verifyToken } from "../utils/token-manager.js";
-import upload from "../middlewares/multer.js";
+import upload from '../middlewares/multer.js'
 
 const userRouter = Router()
 

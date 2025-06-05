@@ -1,18 +1,89 @@
-import multer from 'multer'
-import {CloudinaryStorage} from 'multer-storage-cloudinary';
-import pkg from 'cloudinary';
+import multer from "multer";
+import streamifier from "streamifier";
+import pkg from "cloudinary";
 const { v2: cloudinary } = pkg;
-import connectCloudinary from '../config/cloudinary.js';
 
-connectCloudinary();
+const memoryStorage = multer.memoryStorage();
 
-const storage = new CloudinaryStorage({
-    cloudinary:cloudinary,
-    params:{
-        folder:'Melodify/',
-        allowed_formates: ['jpg','png','jpeg']
+class CloudinaryStorage {
+  constructor(opts) {
+    this.cloudinary = opts.cloudinary;
+    this.folder = opts.folder || "";
+    this.allowedFormats = opts.allowedFormats || ["jpg", "jpeg", "png"];
+  }
+
+  _handleFile(req, file, cb) {
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("Only images are allowed"));
     }
-})
-const upload = multer({storage})
+
+    if (!file.buffer) {
+      return cb(new Error("File buffer is missing"));
+    }
+
+    const uploadStream = this.cloudinary.uploader.upload_stream(
+      {
+        folder: this.folder,
+        resource_type: "image",
+      },
+      (error, result) => {
+        if (error) return cb(error);
+        cb(null, {
+          path: result.secure_url,
+          filename: result.public_id,
+          public_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+    );
+
+    streamifier.createReadStream(file.buffer).pipe(uploadStream);
+  }
+
+  _removeFile(req, file, cb) {
+    cb(null);
+  }
+}
+
+const cloudinaryStorage = new CloudinaryStorage({
+  cloudinary,
+  folder: "Melodify",
+  allowedFormats: ["jpg", "jpeg", "png"],
+});
+
+// IMPORTANT: Compose multer with memoryStorage to ensure file.buffer exists,
+// and override _handleFile/_removeFile with our custom cloudinaryStorage logic
+const upload = multer({
+  storage: memoryStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/jpg"];
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Unsupported file type"), false);
+    }
+  },
+});
+
+// Override multer's single method to use our Cloudinary upload logic
+const originalSingle = upload.single.bind(upload);
+upload.single = function (fieldName) {
+  const multerMiddleware = originalSingle(fieldName);
+  return (req, res, next) => {
+    multerMiddleware(req, res, (err) => {
+      if (err) return next(err);
+      if (!req.file) return next(new Error("No file provided"));
+
+      // Use custom cloudinaryStorage to upload the file from buffer
+      cloudinaryStorage._handleFile(req, req.file, (error, info) => {
+        if (error) return next(error);
+        // Attach uploaded file info to request.file for downstream
+        req.file = { ...req.file, ...info };
+        next();
+      });
+    });
+  };
+};
 
 export default upload;
