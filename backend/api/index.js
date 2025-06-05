@@ -3,6 +3,6 @@ import { createServer } from "vercel-node-server";
 
 const server = createServer(app);
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   server.emit("request", req, res);
 }
