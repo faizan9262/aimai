@@ -1,4 +1,4 @@
-import app from "../index.js  ";
+import app from "../index.js";
 import { createServer } from "http";
 
 export default async function handler(req, res) {
