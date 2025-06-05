@@ -1,11 +1,7 @@
-import app from "../index.js";
-import { connectDB } from "../src/config/databaseConnection.js";
+import app from "../index.js  ";
+import { createServer } from "http";
 
-const port = process.env.PORT;
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`App running on ${port} & Databse Connected`);
-  });
-}).catch((err)=>{
-    console.log(err);
-})
+export default async function handler(req, res) {
+  const server = createServer(app);
+  server.emit("request", req, res);
+}
