@@ -4,6 +4,7 @@ import appRouter from "./src/routes/index.routes.js";
 import cookieParser from "cookie-parser";
 import connectCloudinary from "./src/config/cloudinary.js";
 import { connectDB } from "./src/config/databaseConnection.js";
+import cors from 'cors'
 
 config();
 
