@@ -27,7 +27,8 @@
     "openai": "^5.0.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "vercel-node-server": "^2.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.15.27",
