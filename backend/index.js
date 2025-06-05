@@ -10,16 +10,21 @@ const app = express();
 config();
 connectCloudinary();
 
-app.use(
-  cors({
-    origin: "https://aimai.vercel.app",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://aimai.vercel.app");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
 
-app.options("*", cors());
+app.use(cors({
+  origin: "https://aimai.vercel.app",
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
