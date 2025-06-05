@@ -12,7 +12,7 @@ connectCloudinary();
 
 app.use(
   cors({
-    origin: "http://aimai-faizan-shaikhs-projects-f4141c53.vercel.app",
+    origin: "https://aimai.vercel.app",
     credentials: true,
   })
 );
