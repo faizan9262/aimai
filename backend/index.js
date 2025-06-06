@@ -10,7 +10,11 @@ dotenv.config()
 
 const app = express();
 
-connectDB().then(() => console.log("DB connected")).catch(console.error)
+connectDB()
+  .then(() => console.log("DB connected"))
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });
 connectCloudinary();
 
 const allowedOrigins = ["https://aimai-frontend.vercel.app"];
