@@ -62,13 +62,11 @@ export const registerUser = async (req, res) => {
 
     const token = createToken(user._id.toString(), email, "7d");
 
-    res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
-    res.cookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Lax is more permissive in dev
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    if (req.cookies[COOKIE_NAME]) {
+      res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
+    }
+
+    res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -104,14 +102,11 @@ export const loginUser = async (req, res) => {
 
     const token = createToken(user._id.toString(), email, "7d");
 
-    res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
-    // res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
-    res.cookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Lax is more permissive in dev
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    if (req.cookies[COOKIE_NAME]) {
+      res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
+    }
+
+    res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
 
     return res.status(200).json({
       message: "Login successful",
