@@ -20,6 +20,7 @@ app.use(cors({
 }));
 connectDB();
 connectCloudinary();
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", appRouter);
