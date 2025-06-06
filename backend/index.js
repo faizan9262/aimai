@@ -1,25 +1,25 @@
 import express from "express";
-import { config } from "dotenv";
-import appRouter from "./src/routes/index.routes.js";
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectCloudinary from "./src/config/cloudinary.js";
 import { connectDB } from "./src/config/databaseConnection.js";
 import cors from "cors";
+import appRouter from "./src/routes/index.routes.js";
 
-config();
+dotenv.config()
 
 const app = express();
 
 connectDB();
 connectCloudinary();
 
-  const allowedOrigins = ['https://aimai-frontend.vercel.app']
-  app.use(cors({
+const allowedOrigins = ["https://aimai-frontend.vercel.app"];
+app.use(
+  cors({
     origin: allowedOrigins,
     credentials: true,
-  }));
-connectDB();
-connectCloudinary();
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 
