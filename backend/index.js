@@ -13,7 +13,7 @@ const app = express();
 connectDB();
 connectCloudinary();
 
-  const allowedOrigins = ['https://aimai-frontend.vercel.app/']
+  const allowedOrigins = ['https://aimai-frontend.vercel.app']
   app.use(cors({
     origin: allowedOrigins,
     credentials: true,
