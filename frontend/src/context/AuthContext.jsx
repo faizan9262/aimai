@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }) => {
   const signup = async (name, email, password) => {
     const data = await signupUser(name, email, password);
     if (data) {
-      setIsEmailVerified(false);
       setUser({
         email: data.email,
         name: data.name,

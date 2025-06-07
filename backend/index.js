@@ -17,7 +17,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(cookieParser());
 
 // Routes
 app.use("/api", appRouter);
