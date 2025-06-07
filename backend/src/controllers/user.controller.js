@@ -404,22 +404,25 @@ export const changeProfilePic = async (req, res) => {
   try {
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
-      return res.status(401).json({ message: "User does not exist or token malfunctioned" });
+      return res
+        .status(401)
+        .json({ message: "User does not exist or token malfunctioned" });
     }
 
     if (user._id.toString() !== res.locals.jwtData.id) {
       return res.status(401).json({ message: "Unauthorized" });
-    } 
+    }
 
-    const userId = user._id
+    const userId = user._id;
 
     if (!req.file || !req.file.path) {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    console.log("File received:", req.file);
+
     const imageUrl = req.file.path;
 
-    // Update user profile picture in DB
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profilePicture: imageUrl },

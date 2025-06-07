@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           profilePic: data.profilePic,
           isEmailVerified: data.emailVerified,
         });
-        setIsLoggedIn(true)
+        setIsLoggedIn(true);
       } else {
         setUser({
           email: "",
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
           profilePic: "",
           isEmailVerified: "",
         });
-        setIsLoggedIn(false)
+        setIsLoggedIn(false);
       }
     };
     checkAuth();
@@ -112,10 +112,10 @@ export const AuthProvider = ({ children }) => {
       console.log("Password Updated Successfully");
     }
   };
-  
-  const updateProfilePic = async (formData) => {
-    const data = await updateProfile(formData);
-    console.log("User",data);
+
+  const updateProfilePic = async (imageUrl) => {
+    const data = await updateProfile(imageUrl);
+    console.log("User", data);
     if (data) {
       setUser((prevUser) => ({
         ...prevUser,
@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }) => {
     updateYourPassword,
     email,
     setEmail,
-    updateProfilePic
+    updateProfilePic,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

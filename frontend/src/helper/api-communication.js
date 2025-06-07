@@ -117,15 +117,15 @@ export const updatePassword = async (oldPassword,newPassword) => {
   }
 };
 
-export const updateProfile = async (formData) => {
+export const updateProfile = async (imageUrl) => {
   try {
-    const response = await axios.post(`/user/update-profile-pic`,formData);
+    const response = await axios.post(`/user/update-profile-pic`,imageUrl);
     return response.data;
   } catch (error) {
     if (error.response && error.response.data && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error("Something went wrong while password update");
+      throw new Error("Something went wrong while updating profile");
     }
   }
 };

@@ -23,7 +23,6 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-
   const emailVerificationOtp = async () => {
     try {
       await auth.sendEmailVerifyOtp();
@@ -42,20 +41,20 @@ const Profile = () => {
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0]; 
-    setSelectedFile(file)
+    const file = e.target.files[0];
     if (!file) return;
 
     try {
       toast.loading("Updating Your Profile", { id: "update-profile" });
 
       const formData = new FormData();
-      formData.append("profile", file); 
+      formData.append("profile", file);
 
-      await auth.updateProfilePic(formData);
+      const data = await auth.updateProfilePic(formData);
 
-      toast.success("Profile Updated",{id:'update-profile'})
+      setSelectedFile(null);
 
+      toast.success("Profile Updated", { id: "update-profile" });
     } catch (error) {
       console.log(error);
       toast.error(error.message, { id: "update-profile" });
@@ -77,7 +76,9 @@ const Profile = () => {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-950 px-4 py-10 space-y-6">
       <div className="text-center text-white max-w-md">
-      <h2 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Manage Your Account</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          Manage Your Account
+        </h2>
         <p className="text-gray-400 text-sm">
           This is your personal profile page. Make sure your information is up
           to date.
@@ -95,7 +96,15 @@ const Profile = () => {
         <CardHeader className="flex flex-col items-center gap-4 relative">
           <div className="relative">
             <Avatar className="w-20 h-20 border-2 border-indigo-600">
-              <AvatarImage src={selectedFile ? URL.createObjectURL(selectedFile) : user?.profilePic} alt="Profile" />
+              <AvatarImage
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : user?.profilePic
+                }
+                alt="Profile"
+                className="object-cover"
+              />
               <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
             <button
