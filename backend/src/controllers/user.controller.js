@@ -66,7 +66,7 @@ export const registerUser = async (req, res) => {
       res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
     }
 
-    res.cookie(COOKIE_NAME, token, { ...COOKIE_OPTIONS, signed: true });
+    res.cookie(COOKIE_NAME, token, {COOKIE_OPTIONS});
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -106,7 +106,7 @@ export const loginUser = async (req, res) => {
       res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS);
     }
 
-    res.cookie(COOKIE_NAME, token, { ...COOKIE_OPTIONS, signed: true });
+    res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
 
     return res.status(200).json({
       message: "Login successful",
