@@ -13,7 +13,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useNavigate } from "react-router-dom";
 import StartConversation from "./StartConvo";
-import { Textarea } from "./components/ui/textarea";
+import { Textarea } from "../components/components/ui/textarea";
 
 const Main = () => {
   const auth = useAuth();
@@ -124,7 +124,6 @@ const Main = () => {
                           }}
                         >
                           <Copy className="w-4 h-4" />
-                          Copy
                         </button>
                       </div>
                     
