@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Label } from "@/components/components/ui/label";
@@ -51,6 +51,12 @@ const Login = () => {
     }
   };
 
+  useEffect(()=>{
+    if(auth?.isLoggedIn){
+      navigate('/',{replace:true})
+    }
+  },[auth])
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-md w-[98%] md:w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
@@ -78,6 +84,7 @@ const Login = () => {
             />
           </div>
 
+          {/* Password */}
           <div>
             <Label
               htmlFor="password"
@@ -103,6 +110,7 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Forgot password */}
           <div className="flex justify-between items-center text-sm">
             <span
               onClick={handleForgotPassword}
@@ -112,6 +120,7 @@ const Login = () => {
             </span>
           </div>
 
+          {/* Submit button */}
           <Button
             type="submit"
             className="w-full border-1 border-white hover:border-none text-lg rounded-md py-1 px-4 text-white font-semibold"
@@ -121,6 +130,7 @@ const Login = () => {
           </Button>
         </form>
 
+        {/* Already have account */}
         <p className="text-center cursor-pointer text-gray-400 text-sm">
           Already have an account?{" "}
           <span

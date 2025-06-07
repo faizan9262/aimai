@@ -13,7 +13,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useNavigate } from "react-router-dom";
 import StartConversation from "./StartConvo";
-import { Textarea } from "../components/components/ui/textarea";
+import { Textarea } from "./components/ui/textarea";
+import ChatSkeleton from "./skeleton/ChatSkeleton";
 
 const Main = () => {
   const auth = useAuth();
@@ -22,7 +23,15 @@ const Main = () => {
   const chatContainerRef = useRef(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
+  useEffect(() => {
+    if (Array.isArray(chat.messages) && chat.messages.length > 0) {
+      const delay = setTimeout(() => setInitialLoading(false), 300);
+      return () => clearTimeout(delay);
+    }
+  }, [chat.messages]);
+  
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -75,7 +84,9 @@ const Main = () => {
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto space-y-4 px-4 pt-20 pb-6 scrollbar-hide"
       >
-        {chat.messages ? (
+        {initialLoading ? (
+          <ChatSkeleton count={4} />
+        ) : chat.messages ? (
           chat.messages.map((message, idx) => (
             <motion.div
               key={idx}
@@ -110,33 +121,34 @@ const Main = () => {
                   (block, i) =>
                     block.type === "code" ? (
                       <pre
-                      key={i}
-                      className="relative overflow-x-auto pt-8 p-3 rounded-md bg-gray-950"
-                    >
-                      {/* Header (language + copy button) */}
-                      <div className="absolute top-0 left-0 right-0 flex justify-between items-center px-3 py-2 bg-gray-800 rounded-t-md text-xs text-gray-300">
-                        <span className="uppercase font-mono">{block.language || "text"}</span>
-                        <button
-                          className="flex items-center text-md gap-1 hover:text-white transition"
-                          onClick={() => {
-                            navigator.clipboard.writeText(block.content);
-                            toast.success("Copied to clipboard!");
-                          }}
-                        >
-                          <Copy className="w-4 h-4" />
-                        </button>
-                      </div>
-                    
-                      <SyntaxHighlighter
-                        style={coldarkDark}
-                        language={block.language || "text"}
-                        wrapLines
-                        customStyle={{ background: "transparent", margin: 0 }}
+                        key={i}
+                        className="relative overflow-x-auto pt-8 p-3 rounded-md bg-gray-950"
                       >
-                        {block.content}
-                      </SyntaxHighlighter>
-                    </pre>
-                    
+                        {/* Header (language + copy button) */}
+                        <div className="absolute top-0 left-0 right-0 flex justify-between items-center px-3 py-2 bg-gray-800 rounded-t-md text-xs text-gray-300">
+                          <span className="uppercase font-mono">
+                            {block.language || "text"}
+                          </span>
+                          <button
+                            className="flex items-center text-md gap-1 hover:text-white transition"
+                            onClick={() => {
+                              navigator.clipboard.writeText(block.content);
+                              toast.success("Copied to clipboard!");
+                            }}
+                          >
+                            <Copy className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        <SyntaxHighlighter
+                          style={coldarkDark}
+                          language={block.language || "text"}
+                          wrapLines
+                          customStyle={{ background: "transparent", margin: 0 }}
+                        >
+                          {block.content}
+                        </SyntaxHighlighter>
+                      </pre>
                     ) : (
                       <div
                         key={i}
@@ -170,22 +182,30 @@ const Main = () => {
               type="text"
               placeholder="Type your message..."
               value={input}
+              disabled={loading}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && input.trim()) {
+                if (
+                  e.key === "Enter" &&
+                  !e.shiftKey &&
+                  input.trim() &&
+                  !loading
+                ) {
+                  e.preventDefault(); // ✨ stop newline & send instead
                   handleSend(input, chat.currentConvoId);
                 }
               }}
               className="w-full bg-gray-800 border border-gray-600 text-white pr-12"
             />
+
             <button
               className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md transition ${
-                input.trim()
+                input.trim() && !loading
                   ? "text-indigo-500 hover:bg-gray-700"
                   : "text-gray-500 cursor-not-allowed"
               }`}
               onClick={() => handleSend(input, chat.currentConvoId)}
-              disabled={!input.trim()}
+              disabled={!input.trim() || loading}
             >
               <SendHorizonal className="w-5 h-5" />
             </button>

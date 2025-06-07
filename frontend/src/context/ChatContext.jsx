@@ -18,11 +18,14 @@ export const ChatContextProvider = ({ children }) => {
   const [currentConvoId, setCurrentConvoId] = useState("");
   const [messages, setMessages] = useState([]);
   const [convoId, setConvoId] = useState("");  
+  const [loadingConvos, setLoadingConvos] = useState(true);
 
   useEffect(() => {
     if (auth.isLoggedIn) {
       const getAllConvo = async () => {
+        setLoadingConvos(true);
         const data = await getAllConvoOfUser();
+        console.log("All Conversation: ",data);
         const convo = data.conversations;
         if (convoId) {
           setCurrentConvoId(convoId);
@@ -36,7 +39,9 @@ export const ChatContextProvider = ({ children }) => {
               };
             })
           );
+          setLoadingConvos(false);
         } else {
+          setLoadingConvos(true);
           setCurrentConvoId(convo[0].id);
           setAllConvo(
             convo.map((c) => {
@@ -48,11 +53,14 @@ export const ChatContextProvider = ({ children }) => {
               };
             })
           );
+          setLoadingConvos(false);
         }
       };
       getAllConvo();
     }
   }, [auth]);
+
+  //   console.log("Current Convo Id: ",currentConvoId);
 
   useEffect(() => {
     // console.log("All Chats: ", allConvo);
@@ -74,7 +82,7 @@ export const ChatContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
-      if (!currentConvoId) return; 
+      if (!currentConvoId) return; // guard clause
       try {
         const data = await getChatsOfConvoFoUser(currentConvoId);
         const chat = data.chats;
@@ -107,7 +115,8 @@ export const ChatContextProvider = ({ children }) => {
     messages,
     setMessages,
     setCurrentConvoId,
-    setConvoId
+    setConvoId,
+    loadingConvos
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

@@ -37,7 +37,7 @@ const Profile = () => {
   };
 
   const handleEditProfilePic = () => {
-    fileInputRef.current?.click();
+    fileInputRef.current?.click(); // Trigger hidden input
   };
 
   const handleFileChange = async (e) => {
@@ -73,6 +73,12 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login", { replace: true });
+    }
+  }, [auth]);
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-950 px-4 py-10 space-y-6">
       <div className="text-center text-white max-w-md">
@@ -94,6 +100,7 @@ const Profile = () => {
 
       <Card className="w-full max-w-md p-6 shadow-lg border border-gray-800 bg-gray-900 text-white">
         <CardHeader className="flex flex-col items-center gap-4 relative">
+          {/* Avatar with Edit Icon */}
           <div className="relative">
             <Avatar className="w-20 h-20 border-2 border-indigo-600">
               <AvatarImage
@@ -105,6 +112,7 @@ const Profile = () => {
                 alt="Profile"
                 className="object-cover"
               />
+
               <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
             <button

@@ -14,6 +14,8 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = () => setShowPassword((prev) => !prev);
 
+  // This would usually come from the previous page
+
   console.log("Email: ",auth.email);
   
 
@@ -53,6 +55,7 @@ const ResetPassword = () => {
           Reset Password
         </h2>
 
+        {/* Static Email Display */}
         <div>
           <Label className="block text-sm font-medium text-gray-300">Email</Label>
           <Input
@@ -64,6 +67,7 @@ const ResetPassword = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* OTP Input */}
           <div>
             <Label htmlFor="otp" className="block text-sm font-medium text-gray-300">
               OTP
@@ -78,6 +82,7 @@ const ResetPassword = () => {
             />
           </div>
 
+          {/* New Password Input */}
           <div className="relative">
             <Label htmlFor="newPassword" className="block text-sm font-medium text-gray-300">
               New Password
@@ -98,6 +103,7 @@ const ResetPassword = () => {
             </div>
           </div>
 
+          {/* Confirm Password Input */}
           <div className="relative">
             <Label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
               Confirm Password
@@ -118,6 +124,7 @@ const ResetPassword = () => {
             </div>
           </div>
 
+          {/* Submit Button */}
           <Button
             type="submit"
             className="w-full border-1 border-white hover:border-none text-lg rounded-md py-1 px-4 text-white font-semibold"

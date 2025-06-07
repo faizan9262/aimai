@@ -10,20 +10,21 @@ const Hero = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="max-w-2xl mx-auto px-4 sm:px-6 text-center space-y-8"
+      className="max-w-2xl text-center space-y-8"
     >
-      <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+      <h1 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
         Welcome to Your AI Companion, The Aim.Ai
       </h1>
       <p className="text-gray-300 text-lg md:text-xl">
         Ask anything. Get instant answers. Powered by intelligent technology.
       </p>
 
+      {/* Feature Highlights */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left text-gray-200"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-2xl mx-auto px-4 sm:px-6 text-center space-y-8"
       >
         <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
           <h3 className="font-semibold text-lg mb-2">🚀 Instant Responses</h3>
@@ -45,6 +46,7 @@ const Hero = () => {
         </div>
       </motion.div>
 
+      {/* Call to Action Buttons */}
       <div className="flex justify-center flex-wrap gap-4 mt-6">
         <Button
           className="border-2 border-white hover:border-none text-lg rounded-md py-2 px-4 text-white font-semibold"
@@ -55,6 +57,7 @@ const Hero = () => {
         </Button>
       </div>
 
+      {/* Extra: Tagline */}
       <p className="text-sm text-gray-500 mt-6 italic">
         “Empowering the curious minds, one question at a time.” – Aim.Ai
       </p>

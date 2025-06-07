@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Input } from "@/components/components/ui/input";
@@ -40,10 +40,16 @@ const Singup = () => {
     }
   };
 
+  useEffect(()=>{
+      if(auth?.user){
+        navigate('/',{replace:true})
+      }
+    },[auth])
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-md w-[98%] md:w-full bg-gray-900 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
-        <h2 className="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
+      <h2 className="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
           Sign Up Here
         </h2>
 
@@ -66,6 +72,7 @@ const Singup = () => {
             />
           </div>
 
+          {/* Email */}
           <div>
             <Label
               htmlFor="email"
@@ -83,6 +90,8 @@ const Singup = () => {
             />
           </div>
 
+          {/* Password */}
+          {/* Password */}
           <div>
             <Label
               htmlFor="password"
@@ -108,6 +117,7 @@ const Singup = () => {
             </div>
           </div>
 
+          {/* Confirm Password */}
           <div>
             <Label
               htmlFor="confirm-password"
@@ -133,6 +143,7 @@ const Singup = () => {
             </div>
           </div>
 
+          {/* Submit button */}
           <Button
             type="submit"
             className="w-full border-1 border-white hover:border-none text-lg rounded-md py-2 px-4 text-white font-semibold"
@@ -142,6 +153,7 @@ const Singup = () => {
           </Button>
         </form>
 
+        {/* Already have account */}
         <p className="text-center cursor-pointer text-gray-400 text-sm">
           Already have an account?{" "}
           <span

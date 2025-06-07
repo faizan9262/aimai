@@ -22,30 +22,40 @@ export const AuthProvider = ({ children }) => {
   const [passwordOtpSent, setPasswordOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const data = await authStatus();
-      if (data) {
-        setUser({
-          email: data.email,
-          name: data.name,
-          profilePic: data.profilePic,
-          isEmailVerified: data.emailVerified,
-        });
-        setIsLoggedIn(true);
-      } else {
-        setUser({
-          email: "",
-          name: "",
-          profilePic: "",
-          isEmailVerified: "",
-        });
-        setIsLoggedIn(false);
-      }
-    };
-    checkAuth();
+    if(user){
+      const checkAuth = async () => {
+        setLoading(true)
+        const data = await authStatus();
+        if (data) {
+          setUser({
+            email: data.email,
+            name: data.name,
+            profilePic: data.profilePic,
+            isEmailVerified: data.emailVerified,
+          });
+          setLoading(false)
+          setIsLoggedIn(true)
+        } else {
+          setLoading(true)
+          setUser({
+            email: "",
+            name: "",
+            profilePic: "",
+            isEmailVerified: "",
+          });
+          setLoading(false)
+          setIsLoggedIn(false)
+        }
+      };
+      checkAuth();
+    }
   }, []);
+  
+
+//   console.log("Login Status: ", isLoggedIn);
 
   const login = async (email, password) => {
     const data = await loginUser(email, password);
@@ -53,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       setUser({
         email: data.email,
         name: data.name,
-        profilePic: user.profilePic,
+        profilePicture: user?.profilePicture,
       });
       setIsLoggedIn(true);
     }
@@ -62,6 +72,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (name, email, password) => {
     const data = await signupUser(name, email, password);
     if (data) {
+      setIsEmailVerified(false);
       setUser({
         email: data.email,
         name: data.name,
@@ -112,10 +123,10 @@ export const AuthProvider = ({ children }) => {
       console.log("Password Updated Successfully");
     }
   };
-
+  
   const updateProfilePic = async (imageUrl) => {
     const data = await updateProfile(imageUrl);
-    console.log("User", data);
+    console.log("User",data);
     if (data) {
       setUser((prevUser) => ({
         ...prevUser,
@@ -143,7 +154,7 @@ export const AuthProvider = ({ children }) => {
     updateYourPassword,
     email,
     setEmail,
-    updateProfilePic,
+    updateProfilePic
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
