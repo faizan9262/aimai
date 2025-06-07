@@ -24,7 +24,6 @@ export const generateChatComplition = async (req, res) => {
       conversation = await Conversation.create({ user: user._id });
     }
 
-    // 🔹 Get existing chats
     const previousChats = await Chat.find({
       conversation: conversation._id,
     }).sort({ createdAt: 1 });
@@ -35,7 +34,6 @@ export const generateChatComplition = async (req, res) => {
     }));
     chatsForOpenAi.push({ role: "user", content: message });
 
-    // 🔹 Save user message
     const userMsg = await Chat.create({
       user: user._id,
       conversation: conversation._id,
@@ -43,7 +41,6 @@ export const generateChatComplition = async (req, res) => {
       content: message,
     });
 
-    // 🔹 Send to OpenAI
     const openai = new OpenAI({
       baseURL: "https://openrouter.ai/api/v1",
       apiKey: process.env.OPENAI_API_KEY,
@@ -89,14 +86,11 @@ export const getAllConversations = async (req, res) => {
           createdAt: 1,
         });
 
-        // Find first user message (role === 'user')
         const firstUserMsg = chats.find((chat) => chat.role === 'user');
 
-        // Find first response message after first user message
         let summary = 'No response yet';
         if (firstUserMsg) {
           const firstUserMsgIndex = chats.indexOf(firstUserMsg);
-          // Look for next message after user message with role not 'user' (e.g. assistant)
           for (let i = firstUserMsgIndex + 1; i < chats.length; i++) {
             if (chats[i].role !== 'user') {
               summary = chats[i].content;

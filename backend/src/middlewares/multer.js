@@ -51,8 +51,6 @@ const cloudinaryStorage = new CloudinaryStorage({
   allowedFormats: ["jpg", "jpeg", "png"],
 });
 
-// IMPORTANT: Compose multer with memoryStorage to ensure file.buffer exists,
-// and override _handleFile/_removeFile with our custom cloudinaryStorage logic
 const upload = multer({
   storage: memoryStorage,
   limits: { fileSize: 10 * 1024 * 1024 },
@@ -66,7 +64,6 @@ const upload = multer({
   },
 });
 
-// Override multer's single method to use our Cloudinary upload logic
 const originalSingle = upload.single.bind(upload);
 upload.single = function (fieldName) {
   const multerMiddleware = originalSingle(fieldName);
@@ -75,10 +72,8 @@ upload.single = function (fieldName) {
       if (err) return next(err);
       if (!req.file) return next(new Error("No file provided"));
 
-      // Use custom cloudinaryStorage to upload the file from buffer
       cloudinaryStorage._handleFile(req, req.file, (error, info) => {
         if (error) return next(error);
-        // Attach uploaded file info to request.file for downstream
         req.file = { ...req.file, ...info };
         next();
       });

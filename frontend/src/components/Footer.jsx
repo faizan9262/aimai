@@ -8,7 +8,6 @@ const Footer = () => {
   return (
     <footer className="bg-gray-950 border-t border-white/10 text-gray-300 px-6 md:px-16 py-12">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-        {/* Brand Section */}
         <div className="space-y-3">
           <h2 className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-2xl font-bold font-space">Aim.ai</h2>
           <p className="text-sm text-gray-400 font-manrope leading-relaxed">
@@ -16,8 +15,6 @@ const Footer = () => {
             conversations. Powered by next-gen models.
           </p>
         </div>
-
-        {/* Resources / Highlights */}
         <div className="space-y-3 font-manrope">
           <h3 className="text-xl font-space font-semibold text-white">
             Resources & Highlights
@@ -37,8 +34,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
-        {/* Social & CTA */}
         <div className="space-y-4 font-manrope">
           <h3 className="text-xl font-semibold font-space text-white">Stay Connected</h3>
           <div className="flex gap-4">

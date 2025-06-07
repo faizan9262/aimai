@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useChat } from "../context/ChatContext";
 import { parseMessageBlocks } from "../helper/messageParser.js";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm"; // Supports tables, strikethrough, task lists
+import remarkGfm from "remark-gfm"; 
 import { useNavigate } from "react-router-dom";
 import StartConversation from "./StartConvo";
 
@@ -28,9 +28,9 @@ const Main = () => {
       const container = chatContainerRef.current;
       if (!container) return;
 
-      // Smooth scroll only if you're near the bottom already
       const shouldAutoScroll =
-        container.scrollHeight - container.scrollTop - container.clientHeight < 200;
+        container.scrollHeight - container.scrollTop - container.clientHeight <
+        200;
 
       if (shouldAutoScroll) {
         container.scrollTo({
@@ -38,12 +38,10 @@ const Main = () => {
           behavior: "smooth",
         });
       } else {
-        // Just jump to bottom (fallback)
         container.scrollTop = container.scrollHeight;
       }
     };
 
-    // Slight delay to ensure message is rendered
     const timeout = setTimeout(scrollToBottom, 50);
     return () => clearTimeout(timeout);
   }, [chat.messages]);
@@ -85,80 +83,105 @@ const Main = () => {
         className="flex-1 overflow-y-auto space-y-4 px-4 pt-20 pb-6 scrollbar-hide"
       >
         {chat.messages ? (
-          chat.messages.map((message, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05 }}
-              className={`flex gap-3 items-start max-w-[92%] sm:max-w-[80%] ${
-                message.role === "user" ? "ml-auto flex-row-reverse" : ""
-              }`}
-            >
-              <div className="shrink-0">
-                {message.role === "user" ? (
-                  <Avatar className="w-7 h-7">
-                    <AvatarImage src={auth.user?.profilePic} alt="Profile" />
-                    <AvatarFallback>
-                      {auth.user?.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                ) : (
-                  <Bot className="text-green-400 w-7 h-7 mt-1" />
-                )}
-              </div>
+          chat.messages.map((message, idx) => {
+            const isUser = message.role === "user";
 
-              <div
-                className={`w-full p-3 rounded-xl text-sm leading-relaxed ${
-                  message.role === "user"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-900 text-gray-100"
-                }`}
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className={`
+          max-w-[95%] sm:max-w-[80%]
+          ${isUser ? "ml-auto" : ""}
+          flex flex-col sm:flex-row
+          ${isUser ? "items-end" : "items-start"}
+          gap-1
+        `}
               >
-                {parseMessageBlocks({ messageObj: message.content }).map((block, i) =>
-                  block.type === "code" ? (
-                    <pre key={i} className="overflow-x-auto p-3 rounded-md bg-gray-950">
-                      <SyntaxHighlighter
-                        style={coldarkDark}
-                        language={block.language || "text"}
-                        wrapLines
-                        customStyle={{ background: "transparent", margin: 0 }}
-                      >
-                        {block.content}
-                      </SyntaxHighlighter>
-                    </pre>
+                {/* Avatar */}
+                <div
+                  className={`
+            order-1 sm:order-none
+            ${isUser ? "self-end sm:self-auto" : "self-start sm:self-auto"}
+            mb-1
+            sm:mb-0
+          `}
+                >
+                  {isUser ? (
+                    <Avatar className="w-7 h-7">
+                      <AvatarImage src={auth.user?.profilePic} alt="Profile" />
+                      <AvatarFallback>
+                        {auth.user?.name?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
                   ) : (
-                    <div
-                      key={i}
-                      className="
-                        prose prose-invert max-w-full break-words overflow-x-auto text-[16px] leading-loose 
-                        prose-p:my-3 prose-li:my-2 prose-ol:my-2 prose-ul:my-2
-                        [&_table]:w-full [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:border-separate [&_table]:border-spacing-0
-                        [&_th]:bg-gray-800 [&_th]:text-white [&_th]:px-4 [&_th]:py-2 [&_th]:border [&_th]:border-gray-700
-                        [&_td]:px-4 [&_td]:py-2 [&_td]:border [&_td]:border-gray-700
+                    <Bot className="text-green-400 w-7 h-7" />
+                  )}
+                </div>
 
-                        /* Rounded corners on the first & last header cells */
-                        [&_th:first-child]:rounded-tl-md
-                        [&_th:last-child]:rounded-tr-md
+                <div
+                  className={`
+            w-full
+            p-3 rounded-xl text-sm leading-relaxed
+            ${isUser ? "bg-indigo-600 text-white" : "bg-gray-900 text-gray-100"}
+            sm:max-w-[80%]
 
-                        /* Rounded corners on the first & last td cells of the last row */
-                        [&_tr:last-child>td:first-child]:rounded-bl-md
-                        [&_tr:last-child>td:last-child]:rounded-br-md
-                      "
-                    >
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.content}</ReactMarkdown>
-                    </div>
-                  )
-                )}
-              </div>
-            </motion.div>
-          ))
+            /* Small screen full width with margin */
+            sm:w-auto
+            mx-4 sm:mx-0
+          `}
+                >
+                  {parseMessageBlocks({ messageObj: message.content }).map(
+                    (block, i) =>
+                      block.type === "code" ? (
+                        <pre
+                          key={i}
+                          className="overflow-x-auto p-3 rounded-md bg-gray-950"
+                        >
+                          <SyntaxHighlighter
+                            style={coldarkDark}
+                            language={block.language || "text"}
+                            wrapLines
+                            customStyle={{
+                              background: "transparent",
+                              margin: 0,
+                            }}
+                          >
+                            {block.content}
+                          </SyntaxHighlighter>
+                        </pre>
+                      ) : (
+                        <div
+                          key={i}
+                          className="
+                  prose prose-invert max-w-full break-words overflow-x-auto text-[16px] leading-loose
+                  prose-p:my-3 prose-li:my-2 prose-ol:my-2 prose-ul:my-2
+                  [&_table]:w-full [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:border-separate [&_table]:border-spacing-0
+                  [&_th]:bg-gray-800 [&_th]:text-white [&_th]:px-4 [&_th]:py-2 [&_th]:border [&_th]:border-gray-700
+                  [&_td]:px-4 [&_td]:py-2 [&_td]:border [&_td]:border-gray-700
+                  [&_th:first-child]:rounded-tl-md
+                  [&_th:last-child]:rounded-tr-md
+                  [&_tr:last-child>td:first-child]:rounded-bl-md
+                  [&_tr:last-child>td:last-child]:rounded-br-md
+                "
+                        >
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {block.content}
+                          </ReactMarkdown>
+                        </div>
+                      )
+                  )}
+                </div>
+              </motion.div>
+            );
+          })
         ) : (
           <StartConversation />
         )}
       </div>
 
-      {/* Sticky Input Field */}
       <div className="sticky bottom-0 z-10 w-full px-4 py-3">
         <div className="flex items-center gap-3 w-full">
           <div className="relative w-full">

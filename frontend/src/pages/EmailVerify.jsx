@@ -15,7 +15,7 @@ const EmailVerify = () => {
 
   const verifyOtp = async () => {
     try {
-      await auth.verifyOtpForEmail(otp); // make sure sendEmailVerifyOtp accepts OTP
+      await auth.verifyOtpForEmail(otp); 
       toast.success("Email Verified Successfully.", { id: "otp" });
       navigate("/");
     } catch (error) {

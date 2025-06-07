@@ -1,10 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const StartConversation = () => {
-  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -21,7 +19,6 @@ const StartConversation = () => {
         Kickstart your journey by sending your first message. Whether it’s a question, a doubt, or a random idea—Aim.Ai is here to help you out, 24/7.
       </p>
 
-      {/* Highlights */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -47,10 +44,6 @@ const StartConversation = () => {
           </p>
         </div>
       </motion.div>
-
-      {/* Action Button */}
-
-      {/* Optional Footer Line */}
       <p className="text-sm text-gray-500 italic mt-4">
         “Every great answer starts with a simple question.” – Start your journey now.
       </p>

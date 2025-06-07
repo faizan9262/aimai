@@ -3,7 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github-dark.css"; // clean, modern theme
+import "highlight.js/styles/github-dark.css"; 
 import { Copy } from "lucide-react";
 
 const MarkdownRenderer = ({ content }) => {

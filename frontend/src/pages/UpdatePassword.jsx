@@ -36,13 +36,12 @@ const UpdatePassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-4/5 md:w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
-        <h2 className="text-xl md:text-3xl font-bold text-white text-center">
+      <div className="max-w-md w-[95%] md:w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
+      <h2 className="text-xl md:text-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-bold text-center">
           Update Your Password
         </h2>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          {/* Current Password */}
           <div className="relative">
             <Label htmlFor="oldPassword" className="block text-sm font-medium text-gray-300">
               Current Password
@@ -65,7 +64,6 @@ const UpdatePassword = () => {
             </button>
           </div>
 
-          {/* New Password */}
           <div className="relative">
             <Label htmlFor="newPassword" className="block text-sm font-medium text-gray-300">
               New Password
@@ -88,7 +86,6 @@ const UpdatePassword = () => {
             </button>
           </div>
 
-          {/* Forgot password */}
           <div className="flex justify-between items-center text-sm">
             <span
               onClick={() => navigate("/forgot-password")}
@@ -98,7 +95,6 @@ const UpdatePassword = () => {
             </span>
           </div>
 
-          {/* Submit button */}
           <Button
             type="submit"
             className="w-full border-1 border-white hover:border-none text-lg rounded-md py-1 px-4 text-white font-semibold"

@@ -38,11 +38,11 @@ const Profile = () => {
   };
 
   const handleEditProfilePic = () => {
-    fileInputRef.current?.click(); // Trigger hidden input
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0]; // ✅ Define file
+    const file = e.target.files[0]; 
     setSelectedFile(file)
     if (!file) return;
 
@@ -50,7 +50,7 @@ const Profile = () => {
       toast.loading("Updating Your Profile", { id: "update-profile" });
 
       const formData = new FormData();
-      formData.append("profile", file); // 'profile' must match backend multer field
+      formData.append("profile", file); 
 
       await auth.updateProfilePic(formData);
 
@@ -77,7 +77,7 @@ const Profile = () => {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-950 px-4 py-10 space-y-6">
       <div className="text-center text-white max-w-md">
-        <h2 className="text-2xl font-bold mb-2">Manage Your Account</h2>
+      <h2 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Manage Your Account</h2>
         <p className="text-gray-400 text-sm">
           This is your personal profile page. Make sure your information is up
           to date.
@@ -93,7 +93,6 @@ const Profile = () => {
 
       <Card className="w-full max-w-md p-6 shadow-lg border border-gray-800 bg-gray-900 text-white">
         <CardHeader className="flex flex-col items-center gap-4 relative">
-          {/* Avatar with Edit Icon */}
           <div className="relative">
             <Avatar className="w-20 h-20 border-2 border-indigo-600">
               <AvatarImage src={selectedFile ? URL.createObjectURL(selectedFile) : user?.profilePic} alt="Profile" />

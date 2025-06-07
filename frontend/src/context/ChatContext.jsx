@@ -23,7 +23,6 @@ export const ChatContextProvider = ({ children }) => {
     if (auth.isLoggedIn) {
       const getAllConvo = async () => {
         const data = await getAllConvoOfUser();
-        // console.log("All Conversation: ",data);
         const convo = data.conversations;
         if (convoId) {
           setCurrentConvoId(convoId);
@@ -55,8 +54,6 @@ export const ChatContextProvider = ({ children }) => {
     }
   }, [auth]);
 
-  //   console.log("Current Convo Id: ",currentConvoId);
-
   useEffect(() => {
     // console.log("All Chats: ", allConvo);
   }, [allConvo]);
@@ -77,7 +74,7 @@ export const ChatContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
-      if (!currentConvoId) return; // guard clause
+      if (!currentConvoId) return; 
       try {
         const data = await getChatsOfConvoFoUser(currentConvoId);
         const chat = data.chats;

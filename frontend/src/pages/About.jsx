@@ -69,9 +69,6 @@ const techStack = [
 
 const About = () => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/");
-  };
 
   return (
     <>
@@ -82,7 +79,6 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="max-w-6xl mx-auto text-center space-y-16"
         >
-          {/* Hero Section */}
           <section className="space-y-6 font-space">
             <h1 className="text-4xl md:text-5xl font-bold">
               <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -95,7 +91,6 @@ const About = () => {
             </p>
           </section>
 
-          {/* Feature Cards */}
           <section className="grid sm:grid-cols-2 gap-6 text-left">
             {features.map((feature, index) => (
               <motion.div
@@ -119,7 +114,6 @@ const About = () => {
             ))}
           </section>
 
-          {/* Vision and Mission */}
           <section className="text-left space-y-6">
             <h2 className="text-3xl font-bold font-space text-white text-center">
               Our Vision & Mission
@@ -132,7 +126,6 @@ const About = () => {
             </p>
           </section>
 
-          {/* Tech Stack */}
           <section className="text-center space-y-4">
             <h2 className="text-2xl font-space font-semibold text-white">
               Technology Used In <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Aim.Ai</span>

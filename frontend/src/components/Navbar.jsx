@@ -4,29 +4,25 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom"; // ✅ Step 1: Import
+import { useNavigate, useLocation } from "react-router-dom"; 
 
 const Navbar = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ Step 2: Get current path
+  const location = useLocation(); 
   const [open, setOpen] = useState(false);
 
-  // Helper to check active path
   const isActive = (path) => location.pathname === path;
 
   return (
     <header className="w-full sticky top-0 bg-gray-900 px-5 z-50">
       <div className="flex h-14 items-center justify-between">
-        {/* Logo */}
         <div
           onClick={() => navigate("/")}
           className="text-2xl cursor-pointer font-space font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
         >
           Aim.ai
         </div>
-
-        {/* Desktop Nav */}
         {auth.isLoggedIn && (
           <nav className="hidden md:flex font-space gap-6">
             <Button
@@ -59,7 +55,6 @@ const Navbar = () => {
           </nav>
         )}
 
-        {/* Right Side */}
         <div className="flex items-center gap-2">
           {auth.isLoggedIn ? (
             <Avatar
@@ -79,11 +74,9 @@ const Navbar = () => {
             </Button>
           )}
 
-          {/* Mobile Menu */}
           {auth.isLoggedIn && (
             <Sheet open={open} onOpenChange={setOpen}>
               {" "}
-              {/* ✅ Step 2: controlled */}
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
@@ -115,7 +108,7 @@ const Navbar = () => {
                     onClick={() => {
                       navigate("/");
                       setOpen(false);
-                    }} // ✅ Close sheet
+                    }} 
                     variant="ghost"
                     className={`w-full justify-start text-xl ${
                       isActive("/") ? "text-indigo-300" : "text-white"

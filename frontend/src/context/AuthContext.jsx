@@ -46,9 +46,6 @@ export const AuthProvider = ({ children }) => {
     };
     checkAuth();
   }, []);
-  
-
-//   console.log("Login Status: ", isLoggedIn);
 
   const login = async (email, password) => {
     const data = await loginUser(email, password);

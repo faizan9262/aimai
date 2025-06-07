@@ -18,7 +18,6 @@ const AllConvos = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const chat = useChat();
 
-  // Filtering and Sorting
   const filteredAndSorted = Array.isArray(chat.allConvo)
     ? [...chat.allConvo]
         .filter((c) => c.title.toLowerCase().includes(search.toLowerCase()))
@@ -33,7 +32,7 @@ const AllConvos = () => {
     <>
       <div className="min-h-screen bg-gray-900 px-4 py-10 md:px-12">
         <motion.h1
-          className="text-4xl font-extrabold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-8"
+          className="text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-8"
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -41,11 +40,9 @@ const AllConvos = () => {
           Your Conversations
         </motion.h1>
 
-        {/* Search and Sort Controls */}
         <div className="sticky top-10 z-20 bg-gray-900 py-4 mb-8">
           <div className="flex justify-center">
             <div className="flex gap-3 w-full md:w-2/3 lg:w-1/2">
-              {/* Search Input */}
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
@@ -79,8 +76,6 @@ const AllConvos = () => {
             </div>
           </div>
         </div>
-
-        {/* Pass Filtered & Sorted Convos */}
         <ConvoCard convos={filteredAndSorted} />
       </div>
     </>

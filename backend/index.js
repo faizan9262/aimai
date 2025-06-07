@@ -9,17 +9,15 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(
   cors({
-    origin: "https://aimai-frontend.vercel.app", // or your frontend domain
+    origin: "https://aimai-frontend.vercel.app", 
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
-// Routes
 app.use("/api", appRouter);
 
 export default app;

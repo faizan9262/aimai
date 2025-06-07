@@ -11,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate();
   const auth = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,31 +32,33 @@ const Login = () => {
     }
   };
 
-
-  const handleForgotPassword = async()=>{
-    if(!auth.email){
-      toast.error("Pvovide Your Email to Generate Otp.")
+  const handleForgotPassword = async () => {
+    if (!auth.email) {
+      toast.error("Pvovide Your Email to Generate Otp.");
     }
     try {
-      toast.loading("Sending Password Reset Otp To Yout Email",{id:'reset-password'})
-      await auth.sendOtpForPasswordReset(auth.email)
-      toast.success("6 digit OTP Sent to your email.",{id:'reset-password'})
-      navigate('/reset-password')
+      toast.loading("Sending Password Reset Otp To Yout Email", {
+        id: "reset-password",
+      });
+      await auth.sendOtpForPasswordReset(auth.email);
+      toast.success("6 digit OTP Sent to your email.", {
+        id: "reset-password",
+      });
+      navigate("/reset-password");
     } catch (error) {
       console.log(error);
       toast.error(error.message, { id: "reset-password" });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-4/5 md:w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
-        <h2 className="text-xl md:text-3xl font-bold text-white text-center">
+      <div className="max-w-md w-[98%] md:w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-8 md:space-y-6 space-y-3">
+        <h2 className="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent ">
           Login Here
         </h2>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          {/* Email */}
           <div>
             <Label
               htmlFor="email"
@@ -70,14 +71,13 @@ const Login = () => {
               type="email"
               name="email"
               value={auth.email}
-              onChange={(e)=>auth.setEmail(e.target.value)}
+              onChange={(e) => auth.setEmail(e.target.value)}
               required
               placeholder="you@example.com"
               className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-gray-100 placeholder-gray-500 shadow-sm"
             />
           </div>
 
-          {/* Password */}
           <div>
             <Label
               htmlFor="password"
@@ -103,7 +103,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Forgot password */}
           <div className="flex justify-between items-center text-sm">
             <span
               onClick={handleForgotPassword}
@@ -113,7 +112,6 @@ const Login = () => {
             </span>
           </div>
 
-          {/* Submit button */}
           <Button
             type="submit"
             className="w-full border-1 border-white hover:border-none text-lg rounded-md py-1 px-4 text-white font-semibold"
@@ -123,7 +121,6 @@ const Login = () => {
           </Button>
         </form>
 
-        {/* Already have account */}
         <p className="text-center cursor-pointer text-gray-400 text-sm">
           Already have an account?{" "}
           <span
