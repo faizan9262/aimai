@@ -8,10 +8,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/components/ui/select";
-import ConvoCard from "@/components/ConvoCard";
+} from "../components/components/ui/select";
+import ConvoCard from "../components/ConvoCard";
 import { useChat } from "@/context/ChatContext";
-import ConvoCardSkeleton from "@/components/skeleton/ConvocardSkeleton";
+import ConvoCardSkeleton from "../components/skeleton/ConvoCardSkeleton";
 
 const AllConvos = () => {
   const [search, setSearch] = useState("");

@@ -14,7 +14,7 @@ import remarkGfm from "remark-gfm";
 import { useNavigate } from "react-router-dom";
 import StartConversation from "./StartConvo";
 import { Textarea } from "./components/ui/textarea";
-import ChatSkeleton from "./skeleton/ChatSkeleton";
+import ChatSkeleton from "../components/skeleton/ChatSkeleton";
 
 const Main = () => {
   const auth = useAuth();
