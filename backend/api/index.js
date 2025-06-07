@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       console.log("Connecting to MongoDB...");
       await connectDB();
       isConnected = true;
-      console.log("MongoDB connected in /api/index.js");
+      console.log("MongoDB connected");
     } catch (err) {
       console.error("MongoDB connection failed:", err);
       return res.status(500).end("Database connection error");
