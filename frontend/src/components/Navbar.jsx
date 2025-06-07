@@ -88,7 +88,7 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="bg-gray-900 h-[32%] rounded-md m-3 border-2 border-white w-1/2"
+                className="bg-gray-900 h-[40%] rounded-md m-3 border-2 border-white w-1/2"
               >
                 <nav className="flex flex-col font-space gap-4 mt-6">
                   <div className="flex items-center gap-3">
@@ -97,12 +97,12 @@ const Navbar = () => {
                         navigate("/profile");
                         setOpen(false);
                       }}
-                      className="ml-4 w-12 h-12"
+                      className="ml-4 border-2 border-white w-12 h-12"
                     >
                       <AvatarImage src={auth.user.profilePic} />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <p className="text-white  text-xl">Faizan</p>
+                    <p className="font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent  text-2xl">{auth.user.name}</p>
                   </div>
                   <Button
                     onClick={() => {
