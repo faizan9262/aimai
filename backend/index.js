@@ -4,10 +4,13 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import appRouter from "./src/routes/index.routes.js";
+import connectCloudinary from "./src/config/cloudinary.js";
 
 dotenv.config();
 
+
 const app = express();
+connectCloudinary();
 
 app.use(
   cors({

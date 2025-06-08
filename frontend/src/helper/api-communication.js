@@ -125,10 +125,11 @@ export const updateProfile = async (imageUrl) => {
     if (error.response && error.response.data && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error("Something went wrong while updating profile");
+      throw new Error("Something went wrong while updating profile pic");
     }
   }
 };
+
 
 
 export const getAllConvoOfUser = async () =>{
