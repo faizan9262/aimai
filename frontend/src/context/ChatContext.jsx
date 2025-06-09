@@ -25,7 +25,7 @@ export const ChatContextProvider = ({ children }) => {
       const getAllConvo = async () => {
         setLoadingConvos(true);
         const data = await getAllConvoOfUser();
-        console.log("All Conversation: ",data);
+        // console.log("All Conversation: ",data);
         const convo = data.conversations;
         if (convoId) {
           setCurrentConvoId(convoId);
@@ -101,10 +101,10 @@ export const ChatContextProvider = ({ children }) => {
 
 
   useEffect(() => {
-    console.log(
-      "Chats of convo: ",
-      messages[21]?.content ?? "No message at index 19"
-    );
+    // console.log(
+    //   "Chats of convo: ",
+    //   messages[21]?.content ?? "No message at index 19"
+    // );
   }, [messages]);
 
   const value = {

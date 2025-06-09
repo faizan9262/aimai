@@ -14,7 +14,7 @@ import remarkGfm from "remark-gfm";
 import { useNavigate } from "react-router-dom";
 import StartConversation from "./StartConvo";
 import { Textarea } from "./components/ui/textarea";
-import ChatSkeleton from "../components/skeleton/ChatSkeleton";
+import ChatSkeleton from "./skeleton/ChatSkeleton";
 
 const Main = () => {
   const auth = useAuth();
@@ -26,20 +26,18 @@ const Main = () => {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    if (Array.isArray(chat.messages) && chat.messages.length > 0) {
-      const delay = setTimeout(() => setInitialLoading(false), 300);
-      return () => clearTimeout(delay);
-    }
+    const delay = setTimeout(() => {
+      setInitialLoading(false);
+    }, 300);
+    return () => clearTimeout(delay);
   }, [chat.messages]);
-  
 
   useEffect(() => {
     const scrollToBottom = () => {
       const container = chatContainerRef.current;
       if (!container) return;
       const shouldAutoScroll =
-        container.scrollHeight - container.scrollTop - container.clientHeight <
-        200;
+        container.scrollHeight - container.scrollTop - container.clientHeight < 200;
       if (shouldAutoScroll) {
         container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
       } else {
@@ -60,7 +58,11 @@ const Main = () => {
     setLoading(true);
 
     try {
-      await chat.startOrContinueConvo(inputText, currentConvoId);
+      const data = await chat.startOrContinueConvo(inputText, currentConvoId);
+      
+      if (!chat.currentConvoId) {
+        chat.setCurrentConvoId(data.conversationId);
+      }
     } catch {
       toast.error("Failed to get response");
     } finally {
@@ -70,8 +72,9 @@ const Main = () => {
 
   const handleNewConvo = () => {
     try {
-      chat.setCurrentConvoId("");
-      chat.setMessages("");
+      chat.setCurrentConvoId(""); // Reset convo ID
+      chat.setMessages([]);
+      setInitialLoading(false);
       navigate("/new-chat");
     } catch (error) {
       console.log(error);
@@ -86,7 +89,7 @@ const Main = () => {
       >
         {initialLoading ? (
           <ChatSkeleton count={4} />
-        ) : chat.messages ? (
+        ) : Array.isArray(chat.messages) && chat.messages.length > 0 ? (
           chat.messages.map((message, idx) => (
             <motion.div
               key={idx}
@@ -124,7 +127,6 @@ const Main = () => {
                         key={i}
                         className="relative overflow-x-auto pt-8 p-3 rounded-md bg-gray-950"
                       >
-                        {/* Header (language + copy button) */}
                         <div className="absolute top-0 left-0 right-0 flex justify-between items-center px-3 py-2 bg-gray-800 rounded-t-md text-xs text-gray-300">
                           <span className="uppercase font-mono">
                             {block.language || "text"}
@@ -153,12 +155,12 @@ const Main = () => {
                       <div
                         key={i}
                         className="prose prose-invert max-w-full break-words overflow-x-auto text-[16px] leading-loose 
-                        prose-p:my-3 prose-li:my-2 prose-ol:my-2 prose-ul:my-2
-                        [&_table]:w-full [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:border-separate [&_table]:border-spacing-0
-                        [&_th]:bg-gray-800 [&_th]:text-white [&_th]:px-4 [&_th]:py-2 [&_th]:border [&_th]:border-gray-700
-                        [&_td]:px-4 [&_td]:py-2 [&_td]:border [&_td]:border-gray-700
-                        [&_th:first-child]:rounded-tl-md [&_th:last-child]:rounded-tr-md
-                        [&_tr:last-child>td:first-child]:rounded-bl-md [&_tr:last-child>td:last-child]:rounded-br-md"
+                          prose-p:my-3 prose-li:my-2 prose-ol:my-2 prose-ul:my-2
+                          [&_table]:w-full [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:border-separate [&_table]:border-spacing-0
+                          [&_th]:bg-gray-800 [&_th]:text-white [&_th]:px-4 [&_th]:py-2 [&_th]:border [&_th]:border-gray-700
+                          [&_td]:px-4 [&_td]:py-2 [&_td]:border [&_td]:border-gray-700
+                          [&_th:first-child]:rounded-tl-md [&_th:last-child]:rounded-tr-md
+                          [&_tr:last-child>td:first-child]:rounded-bl-md [&_tr:last-child>td:last-child]:rounded-br-md"
                       >
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {block.content}
@@ -191,7 +193,7 @@ const Main = () => {
                   input.trim() &&
                   !loading
                 ) {
-                  e.preventDefault(); // ✨ stop newline & send instead
+                  e.preventDefault();
                   handleSend(input, chat.currentConvoId);
                 }
               }}
