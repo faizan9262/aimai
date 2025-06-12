@@ -51,11 +51,11 @@ const Login = () => {
     }
   };
 
-  useEffect(()=>{
-    if(auth?.isLoggedIn){
-      navigate('/',{replace:true})
-    }
-  },[auth])
+  // useEffect(()=>{
+  //   if(auth?.isLoggedIn){
+  //     navigate('/',{replace:true})
+  //   }
+  // },[auth])
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
