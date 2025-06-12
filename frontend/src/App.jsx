@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import AllConvos from "./pages/AllConvos";
 import About from "./pages/About";
-import PrivateRoute from "./components/PrivateRoute"
+// import PrivateRoute from "./components/PrivateRoute"
 
 const App = () => {
   return (
@@ -27,57 +27,43 @@ const App = () => {
         <Route
           path="/new-chat"
           element={
-            <PrivateRoute>
               <Home />
-            </PrivateRoute>
           }
         />
         <Route
           path="/:convoId"
           element={
-            <PrivateRoute>
               <Home />
-            </PrivateRoute>
           }
         />
         <Route
           path="/chats"
           element={
-            <PrivateRoute>
               <AllConvos />
-            </PrivateRoute>
           }
         />
         <Route
           path="/profile"
           element={
-            <PrivateRoute>
               <Profile />
-            </PrivateRoute>
           }
         />
         <Route
           path="/verify-email"
           element={
-            <PrivateRoute>
               <EmailVerify />
-            </PrivateRoute>
           }
         />
         <Route
           path="/reset-password"
           element={
-            <PrivateRoute>
               <ResetPassword />
-            </PrivateRoute>
           }
         />
         <Route
           path="/update-password"
           element={
-            <PrivateRoute>
               <UpdatePassword />
-            </PrivateRoute>
           }
         />
       </Routes>
