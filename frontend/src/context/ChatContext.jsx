@@ -72,13 +72,19 @@ export const ChatContextProvider = ({ children }) => {
 
   const startOrContinueConvo = async (message, conversationId) => {
     const data = await newOrContinueChat(message, conversationId);
+  
+    // ✅ Ensure currentConvoId is updated if a new one is returned
+    if (!conversationId && data.conversationId) {
+      setCurrentConvoId(data.conversationId);
+    }
+  
     const simplifiedMessages = data.messages.map(({ role, content }) => ({
       role,
       content,
     }));
     setMessages(simplifiedMessages);
-    console.log(messages);
   };
+  
 
   useEffect(() => {
     const fetchChats = async () => {

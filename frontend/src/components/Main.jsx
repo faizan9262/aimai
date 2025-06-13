@@ -59,10 +59,6 @@ const Main = () => {
 
     try {
       const data = await chat.startOrContinueConvo(inputText, currentConvoId);
-      
-      if (!chat.currentConvoId) {
-        chat.setCurrentConvoId(data.conversationId);
-      }
     } catch {
       toast.error("Failed to get response");
     } finally {

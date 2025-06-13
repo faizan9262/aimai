@@ -10,6 +10,7 @@ import { Toaster } from "./components/components/ui/sonner";
 import { ChatContextProvider } from "./context/ChatContext";
 
 axios.defaults.baseURL = "https://aimai-backend.vercel.app/api";
+// axios.defaults.baseURL = "http://localhost:3000/api";
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(

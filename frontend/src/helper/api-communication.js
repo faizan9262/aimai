@@ -142,12 +142,13 @@ export const getAllConvoOfUser = async () =>{
 }
 
 export const newOrContinueChat = async (message,conversationId) =>{
-  const response = await axios.post("/chat/complete",{message,conversationId})
-  if(response.status !== 200){
-      throw  new Error("Unable to Load All conversation")
+  try {
+    const response = await axios.post("/chat/complete", { message, conversationId });
+    return response.data;
+  } catch (err) {
+    console.error("API error:", err);
+    throw new Error("Unable to load or continue conversation");
   }
-  const data = await response.data
-  return data
 }
 
 export const getChatsOfConvoFoUser = async (conversationId) =>{
